@@ -2,12 +2,17 @@ require 'sinatra'
 require 'newrelic_rpm'
 require 'httparty'
 require 'pry' if development?
+require 'active_record'
 require 'sinatra/activerecord'
 require './config/environments'
 require './config/mapping'
 require './models/redmine_issue'
 require './models/github_issue'
 require './models/issue'
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+CERT_PATH = '/usr/share/webapps/redmine/ssl-cert/'
 
 @@mapping = Mapping.new
 
@@ -45,6 +50,9 @@ post '/github_hook' do
 	## Issue already created on Redmine
 	if issue.present?
 		issue.update_on_redmine(github)
+	else
+		#issue = Issue.create(redmine_id: github.id)
+		#issue.create_on_redmine(github)
 	end
 
 	"OK"

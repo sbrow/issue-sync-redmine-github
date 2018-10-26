@@ -16,14 +16,14 @@ class Mapping
 
   def assignee
     {
-      1 => "gmontard"
+      1 => "sbrow"
     }
   end
 
   def status
     {
-      1 => "closed",
-      2 => "open"
+      5 => "closed",
+      2 => "open",
     }
   end
 
